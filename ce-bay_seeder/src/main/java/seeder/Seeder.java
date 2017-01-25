@@ -24,8 +24,8 @@ public class Seeder extends UntypedActor {
         return CEBayHelper.GetRemoteActorRef(getSelf());
     }
 
-    private String path = "Uni.java";
-    private String name = "Uni.java";
+    private String path = "mitsch2.java";
+    private String name = "mitsch2.java";
     //get selection of cebayActor
     private ActorSelection cebayActor = context().actorSelection(CEBayHelper.GetRegistryActorRef());
     //declaration of file that should be provided by seeder

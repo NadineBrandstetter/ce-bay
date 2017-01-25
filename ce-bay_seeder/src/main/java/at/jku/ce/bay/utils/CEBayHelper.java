@@ -9,8 +9,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class CEBayHelper {
 
-  private static String SYS_NAME = "SeederActor";
-  private static String SYS_HOST = "sys_host";
+  public static String SYS_NAME = "Michael" + (int)(Math.random()*1000000000);
+  private static String SYS_HOST = "140.78.183.223";
   private static int SYS_PORT = 2552;
 
   private static String REGISTRY_SYS_NAME = "cebay";

@@ -21,8 +21,8 @@ public class App {
         * SYSTEM AND ACTOR NEED A NEW NAME EVERY TIME THE SEEDER WAS STARTED
         */
         //creation of actorsystem and actor of SeederActor
-        ActorSystem actorSystem = ActorSystem.create("seederActor");
-        ActorRef actor = actorSystem.actorOf(Seeder.props(), "seederActor");
+        ActorSystem actorSystem = ActorSystem.create(CEBayHelper.SYS_NAME);
+        ActorRef actor = actorSystem.actorOf(Seeder.props(), CEBayHelper.SYS_NAME);
         //start message for SeederActor
         actor.tell(new Seeder.InitPublish(), null);
     }
