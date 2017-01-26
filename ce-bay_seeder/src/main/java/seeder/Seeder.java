@@ -25,8 +25,8 @@ public class Seeder extends UntypedActor {
         return CEBayHelper.GetRemoteActorRef(getSelf());
     }
 
-    private String path = "testFileGruppe28.txt";
-    private String name = "testFileGruppe28.txt";
+    private String path = "test28.txt";
+    private String name = "test28.txt";
     //get selection of cebayActor
     private ActorSelection cebayActor = context().actorSelection(CEBayHelper.GetRegistryActorRef());
     //declaration of file that should be provided by seeder
@@ -35,9 +35,11 @@ public class Seeder extends UntypedActor {
         //start message sended by App
         if(message instanceof InitPublish) {
             //sends message for publishing file on cebay
+            System.out.println(path + " - " + hashedFileName() + " - " + address());
             cebayActor.tell(new Publish(path, hashedFileName(), address()), getSelf());
         //if GetFile message arrives, send file to client that sended the request
         } else if(message instanceof GetFile) {
+            System.out.println("Anfrage von" + getSender().toString());
             GetFile wantedFile = (GetFile) message;
             //if filename of seeder = filename that was requested by a client
             if(wantedFile.name().equals(this.name)) {
@@ -56,6 +58,7 @@ public class Seeder extends UntypedActor {
         //bay wants to know if seeder is still available
         } else if (message instanceof GetStatus) {
             //therefore a StatusRetrieved is returned
+            System.out.println("Statusanfrage von" + getSender().toString());
             getSender().tell(new StatusRetrieved(), getSelf());
         } else {
             //if unknown message

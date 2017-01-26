@@ -2,6 +2,7 @@ package at.jku.ce.bay.app;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import com.typesafe.config.ConfigFactory;
 import seeder.Seeder;
 import at.jku.ce.bay.utils.CEBayHelper;
 
@@ -21,10 +22,10 @@ public class App {
         * SYSTEM AND ACTOR NEED A NEW NAME EVERY TIME THE SEEDER IS STARTED
         */
         //creation of actorsystem and actor
-        ActorSystem actorSystem = ActorSystem.create(CEBayHelper.SYS_NAME);
+        ActorSystem actorSystem = ActorSystem.create(CEBayHelper.SYS_NAME,  ConfigFactory.load("application"));
         ActorRef actor = actorSystem.actorOf(Seeder.props(), CEBayHelper.SYS_NAME);
         //start message for SeederActor
-        actor.tell(new Seeder.InitPublish(), null);
+        actor.tell(new Seeder.InitPublish(), ActorRef.noSender());
     }
 
 }

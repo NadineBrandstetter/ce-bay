@@ -6,11 +6,12 @@ import org.apache.commons.io.IOUtils;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.TimeUnit;
 
 public class CEBayHelper {
 
-  public static String SYS_NAME = "Michael" + (int)(Math.random()*1000000000);
-  private static String SYS_HOST = "140.78.183.223";
+  public static String SYS_NAME = "grp28" + (int)(Math.random()*1000000000);
+  private static String SYS_HOST = "140.78.196.28";
   private static int SYS_PORT = 2552;
 
   private static String REGISTRY_SYS_NAME = "cebay";
@@ -23,6 +24,7 @@ public class CEBayHelper {
 	*/
   public static String GetRegistryActorRef() {
 	 return "akka.tcp://" + REGISTRY_SYS_NAME + "@" + REGISTRY_SYS_HOST + ":" + REGISTRY_SYS_PORT + "/user/cebay-registry";
+
   }
 
   /**
