@@ -26,8 +26,10 @@ public class Client extends UntypedActor {
         return Props.create(Client.class);
     }
 
+    //start message that leads to GetFileNames-message
     public static class InitPublish {}
 
+    //self-defined message that leads to FindFile-message
     public static class InitFindFile {
         private static String filename;
         public InitFindFile(String name) {
@@ -37,13 +39,16 @@ public class Client extends UntypedActor {
 
     //get the reference of cebayActor
     ActorSelection cebayActor = context().actorSelection(CEBayHelper.GetRegistryActorRef());
+
     public void onReceive(Object message) throws Throwable {
+        //start-message
         if(message instanceof InitPublish) {
             //get the available files
             cebayActor.tell(new GetFileNames(), getSelf());
-            //the bay found files and returned the name of them
+        //the bay found files and returned the name of them
         } else if(message instanceof FilesFound) {
             FilesFound filesFound = (FilesFound) message;
+            //create a list of filenames
             List<String> fileList = filesFound.fileNames();
             System.out.println("*****************");
             System.out.println(" Available files");
@@ -56,13 +61,15 @@ public class Client extends UntypedActor {
             }
             //print menu to get another input
             App.printMenu();
-            //clientActor wants to find a specific file
+        //start-message for FindFile-message
         } else if(message instanceof InitFindFile)  {
             System.out.println("Enter desired filename: " + InitFindFile.filename);
+            //clientActor wants to find a specific file
             cebayActor.tell(new FindFile(InitFindFile.filename), getSelf());
-            //the bay returned the seeders that provide a specific file
+        //the bay returned the seeders that provide a specific file
         } else if(message instanceof SeederFound) {
             SeederFound seeder = (SeederFound) message;
+            //create a list of seeders
             List<String> seederList = seeder.seeder();
             System.out.println();
             System.out.println("************************************");
@@ -78,23 +85,25 @@ public class Client extends UntypedActor {
                     System.out.println("Index *" + index + "*: " + seederActor);
                     index++;
                 }
+                //enable user to type in the index
                 System.out.print("Enter index of desired Seeder: ");
                 String input = App.in.readLine();
                 System.out.println("Your choice: " + seederList.get(Integer.parseInt(input)));
                 //get the selection of desired seederActor
                 ActorSelection sourceSeeder = context().actorSelection(seederList.get(Integer.parseInt(input)));
-                //sends the seeder with the file a getFile-Message
+                //sends the seeder with the file a GetFile-message
                 sourceSeeder.tell(new GetFile(InitFindFile.filename), getSelf());
             }
-            //message that signalizes that file was not found
+        //message that signalizes that file was not found
         } else if(message instanceof FileNotFound) {
             System.out.println("Sorry! The file has not been sended!");
             App.printMenu();
-            //message that signalizes that the seeder has sended the file
+        //message that signalizes that the seeder has sended the file
         } else if(message instanceof FileRetrieved) {
             //file comes in a byte array
             byte[] file = ((FileRetrieved) message).data();
             System.out.print("Enter desired filename: ");
+            //file is saved in project directory
             String desiredFilename = App.in.readLine();
             FileOutputStream out = new FileOutputStream(desiredFilename);
             out.write(file);
@@ -103,6 +112,7 @@ public class Client extends UntypedActor {
             System.out.println("*********************************");
             System.out.println("*********************************");
             App.printMenu();
+        //if any other message occurs --> print it
         } else {
             System.out.println(message.toString());
             App.printMenu();

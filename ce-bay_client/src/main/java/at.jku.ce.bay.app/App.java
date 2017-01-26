@@ -26,23 +26,24 @@ public class App {
         printMenu();
     }
 
+    //menu for user interaction
     public static void printMenu() {
         String entry = "";
         try {
             System.out.println("*************************************************");
-            System.out.println("Enter 'A' to list all files that are available!");
-            System.out.println("Enter 'B' to get a specific file!");
-            System.out.println("Enter 'C' to terminate the actor system.");
+            System.out.println("Enter '1' to list all files that are available!");
+            System.out.println("Enter '2' to get a specific file!");
+            System.out.println("Enter '3' to terminate the actor system.");
             System.out.println("*************************************************");
             System.out.print("Enter your choice: ");
             entry = in.readLine();
-            if(entry.equalsIgnoreCase("A")) {
+            if(entry.equalsIgnoreCase("1")) {
                 actor.tell(new Client.InitPublish(), null);
-            } else if(entry.equalsIgnoreCase("B")) {
+            } else if(entry.equalsIgnoreCase("2")) {
                 System.out.print("Enter name of desired file: ");
                 String filename = in.readLine();
                 actor.tell(new Client.InitFindFile(filename), null);
-            } else if(entry.equalsIgnoreCase("C")) {
+            } else if(entry.equalsIgnoreCase("3")) {
                 actorSystem.shutdown();
             } else {
                 printMenu();
