@@ -3,6 +3,7 @@ version '1.0-SNAPSHOT'
 
 apply plugin: 'idea'
 apply plugin: 'java'
+apply plugin: 'gradle-one-jar'
 
 sourceCompatibility = 1.5
 
@@ -22,4 +23,18 @@ dependencies {
     compile group: 'commons-io', name: 'commons-io', version: '2.5'
     compile fileTree(dir: 'lib', include: '*.jar')
     testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+task pack(type: OneJar){
+    mainClass = 'at.jku.ce.bay.app.App'
+    archiveName = 'version1.pkg.jar'
+}
+
+buildscript{
+    repositories {
+        mavenCentral()
+    }
+    dependencies{
+        classpath 'com.github.rholder:gradle-one-jar:1.0.4'
+    }
 }
