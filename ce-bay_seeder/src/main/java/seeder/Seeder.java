@@ -18,6 +18,7 @@ public class Seeder extends UntypedActor {
         return Props.create(Seeder.class);
     }
 
+    //start-message
     public static class InitPublish {}
 
     private String address() {
@@ -35,7 +36,7 @@ public class Seeder extends UntypedActor {
         if(message instanceof InitPublish) {
             //sends message for publishing file on cebay
             cebayActor.tell(new Publish(path, hashedFileName(), address()), getSelf());
-            //if GetFile message arrives, send file to client that sended the request
+        //if GetFile message arrives, send file to client that sended the request
         } else if(message instanceof GetFile) {
             GetFile wantedFile = (GetFile) message;
             //if filename of seeder = filename that was requested by a client
@@ -47,11 +48,12 @@ public class Seeder extends UntypedActor {
                     getSender().tell(new FileRetrieved(data), getSelf());
                 }
                 in.close();
-                //filename of seeder != filename that was requested by a client
+            //filename of seeder != filename that was requested by a client
             } else {
+                //send FileNotFound message
                 getSender().tell(new FileNotFound(wantedFile.name()), getSelf());
             }
-            //bay wants to know if seeder is still available
+        //bay wants to know if seeder is still available
         } else if (message instanceof GetStatus) {
             //therefore a StatusRetrieved is returned
             getSender().tell(new StatusRetrieved(), getSelf());

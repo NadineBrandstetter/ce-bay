@@ -18,9 +18,9 @@ public class App {
 
     public static void main(String[] args) {
         /*
-        * SYSTEM AND ACTOR NEED A NEW NAME EVERY TIME THE SEEDER WAS STARTED
+        * SYSTEM AND ACTOR NEED A NEW NAME EVERY TIME THE SEEDER IS STARTED
         */
-        //creation of actorsystem and actor of SeederActor
+        //creation of actorsystem and actor
         ActorSystem actorSystem = ActorSystem.create(CEBayHelper.SYS_NAME);
         ActorRef actor = actorSystem.actorOf(Seeder.props(), CEBayHelper.SYS_NAME);
         //start message for SeederActor
